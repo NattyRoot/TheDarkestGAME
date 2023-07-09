@@ -22,5 +22,7 @@ public class TheDarkestGAME {
         window.setLocationRelativeTo(null);
 
         window.setVisible(true);
+
+        gamePanel.startGameThread();
     }
 }
