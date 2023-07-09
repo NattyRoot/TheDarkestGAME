@@ -20,12 +20,12 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     // FPS
-    final int FPS = 120;
+    final int FPS = 60;
 
     // Player's default position
     int playerX = 100;
     int playerY = 100;
-    int playerSpeed = 2;
+    int playerSpeed = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -48,9 +48,13 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
 
+        long timer = 0;
+        int drawCount = 0;
+
         while(gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
+            timer += currentTime - lastTime;
             lastTime = currentTime;
 
             if (delta >= 1) {
@@ -64,6 +68,13 @@ public class GamePanel extends JPanel implements Runnable {
                  */
                 repaint();
                 delta--;
+                drawCount++;
+            }
+
+            if (timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                drawCount = 0;
+                timer = 0;
             }
         }
     }
