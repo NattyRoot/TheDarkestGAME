@@ -14,7 +14,7 @@ public class TileManager {
     GamePanel gp;
     Tile[] tile;
 
-    int mapTileNum[][];
+    int[][] mapTileNum;
 
     public TileManager(GamePanel gp) {
 
@@ -24,43 +24,49 @@ public class TileManager {
 
         mapTileNum = new int[gp.getMaxScreenCol()][gp.getMaxScreenRow()];
 
-        getTileImage();
+        loadTileImage();
         loadMap();
     }
 
     public void loadMap() {
 
-        try {
-            InputStream is = getClass().getResourceAsStream("/maps/mapTest.txt");
+        try (InputStream is = getClass().getResourceAsStream("/maps/mapTest.txt")) {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
             int row = 0;
 
-            while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
+            // On remplit toutes les lignes
+            while (row < gp.getMaxScreenRow()) {
+                // Lecture de la ligne suivante
                 String line = br.readLine();
+
+                // On remplit toutes les colonnes de la ligne
                 while (col < gp.getMaxScreenCol()) {
-                    String number[] = line.split(" ");
+                    // On récupère le numéro de la ligne et colonne en cours
+                    int num = Integer.parseInt(line.split(" ")[col]);
 
-                    int num = Integer.parseInt(number[col]);
-
+                    // On inscrit ce numéro dans notre mapTileNum
                     mapTileNum[col][row] = num;
+
+                    // On passe à la colonne suivante
                     col++;
                 }
-                if (col == gp.getMaxScreenCol()) {
-                    col = 0;
-                    row++;
 
-                }
-                br.close();
+                // On retourne à la première colonne et on passe à la ligne suivante
+                col = 0;
+                row++;
             }
 
-        } catch (Exception e) {
+            // Quand on a fini de lire le fichier, on ferme le BufferedReader pour rendre la mémoire alloué !
+            br.close();
 
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void getTileImage() {
+    public void loadTileImage() {
 
         try {
 
@@ -79,15 +85,12 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-
-//      g2.drawImage(tile[0].image, 0, 0, gp.getTileSize(), gp.getTileSize(), null);
         int col = 0;
         int row = 0;
         int x = 0;
         int y = 0;
 
         while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
-
             int tileNum = mapTileNum[col][row];
 
             g2.drawImage(tile[tileNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);
