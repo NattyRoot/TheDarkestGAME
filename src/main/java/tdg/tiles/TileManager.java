@@ -71,10 +71,10 @@ public class TileManager {
         try {
 
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/florTiles/wooden.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/wooden.png"));
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/florTiles/florRock.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/floorRock.png"));
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/wallTiles/rock.png"));
