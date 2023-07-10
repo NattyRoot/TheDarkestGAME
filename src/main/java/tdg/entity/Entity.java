@@ -22,6 +22,8 @@ public abstract class Entity {
      * French is so beautiful
      *
      * Il est vachement drôle le Félix de 2023 non ?
+     *
+     * De ouf, j'ai ri, j'avoue ! :')
      */
     public int getX() {
         return x;
