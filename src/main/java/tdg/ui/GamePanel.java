@@ -2,6 +2,7 @@ package tdg.ui;
 
 import tdg.entity.Player;
 import tdg.system.KeyHandler;
+import tdg.tiles.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // FPS
     final int FPS = 60;
+    TileManager tileM = new TileManager(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -48,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         long timer = 0;
         int drawCount = 0;
 
-        while(gameThread != null) {
+        while (gameThread != null) {
             // Count time to know when to draw to match FPS count
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -93,6 +95,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
+        tileM.draw(g2);
+
         player.draw(g2);
 
         g2.dispose();
@@ -100,5 +104,21 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getTileSize() {
         return tileSize;
+    }
+
+    public int getMaxScreenCol(){
+        return maxScreenCol;
+    }
+
+    public int getMaxScreenRow() {
+        return maxScreenRow;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
     }
 }
