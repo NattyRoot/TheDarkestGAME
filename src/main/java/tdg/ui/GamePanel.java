@@ -1,5 +1,6 @@
 package tdg.ui;
 
+import tdg.entity.Player;
 import tdg.system.KeyHandler;
 
 import javax.swing.*;
@@ -18,14 +19,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
+    Player player = new Player(this, keyHandler);
 
     // FPS
     final int FPS = 60;
-
-    // Player's default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -52,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         int drawCount = 0;
 
         while(gameThread != null) {
+            // Count time to know when to draw to match FPS count
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             timer += currentTime - lastTime;
@@ -67,10 +65,17 @@ public class GamePanel extends JPanel implements Runnable {
                  * 2. DRAW: draw the screen with the updated informations
                  */
                 repaint();
+
+                /*
+                 * 3. RESET DELTA: reset delta after drawing to know when newt image should be drawn
+                 */
                 delta--;
+
+                // Count +1 frame drawn
                 drawCount++;
             }
 
+            // Print total images drawn in 1 sec (should be equal to FPS)
             if (timer >= 1000000000) {
                 System.out.println("FPS: " + drawCount);
                 drawCount = 0;
@@ -80,18 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (keyHandler.isUpPressed()) {
-            playerY -= playerSpeed;
-        }
-        if (keyHandler.isDownPressed()) {
-            playerY += playerSpeed;
-        }
-        if (keyHandler.isLeftPressed()) {
-            playerX -= playerSpeed;
-        }
-        if (keyHandler.isRightPressed()) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -99,9 +93,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2);
 
         g2.dispose();
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
 }

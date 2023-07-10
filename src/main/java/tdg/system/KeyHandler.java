@@ -6,6 +6,10 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     private boolean upPressed, downPressed, leftPressed, rightPressed;
 
+    public boolean isKeyPressed() {
+        return upPressed || downPressed || leftPressed || rightPressed;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {}
 
