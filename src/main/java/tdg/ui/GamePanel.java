@@ -2,6 +2,7 @@ package tdg.ui;
 
 import tdg.config.ConfigurationReader;
 import tdg.entity.Player;
+import tdg.map.MapGenerator;
 import tdg.system.KeyHandler;
 import tdg.tiles.TileManager;
 
@@ -27,7 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     // FPS
     final int FPS = ConfigurationReader.getInt(GAME_FPS);;
-    TileManager tileM = new TileManager(this);
+    //TileManager tileM = new TileManager(this);
+    MapGenerator mapGenerator = new MapGenerator(this, 10, 10);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -98,9 +100,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        tileM.draw(g2);
+        //tileM.draw(g2);
 
-        player.draw(g2);
+        //player.draw(g2);
+
+        mapGenerator.draw(g2);
 
         g2.dispose();
     }
