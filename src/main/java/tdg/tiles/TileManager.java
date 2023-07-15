@@ -100,7 +100,14 @@ public class TileManager {
             int screenX = worldX - gp.player.getWorldX() + gp.player.screenX;
             int screenY = worldY - gp.player.getWorldY() + gp.player.screenY;
 
-            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+            if (
+                worldX + gp.getTileSize() > gp.player.getWorldX() - gp.player.screenX &&
+                worldX - gp.getTileSize() < gp.player.getWorldX() + gp.player.screenX &&
+                worldY + gp.getTileSize() > gp.player.getWorldY() - gp.player.screenY &&
+                worldY - gp.getTileSize() < gp.player.getWorldY() + gp.player.screenY
+            ) {
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+            }
             worldCol++;
 
 
