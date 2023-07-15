@@ -22,7 +22,7 @@ public class TileManager {
 
         tile = new Tile[10];
 
-        mapTileNum = new int[gp.getMaxScreenCol()][gp.getMaxScreenRow()];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         loadTileImage();
         loadMap();
@@ -30,19 +30,19 @@ public class TileManager {
 
     public void loadMap() {
 
-        try (InputStream is = getClass().getResourceAsStream("/maps/mapTest.txt")) {
+        try (InputStream is = getClass().getResourceAsStream("/maps/bigMapTest.txt")) {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
             int row = 0;
 
             // On remplit toutes les lignes
-            while (row < gp.getMaxScreenRow()) {
+            while (row < gp.maxWorldRow) {
                 // Lecture de la ligne suivante
                 String line = br.readLine();
 
                 // On remplit toutes les colonnes de la ligne
-                while (col < gp.getMaxScreenCol()) {
+                while (col < gp.maxWorldCol) {
                     // On récupère le numéro de la ligne et colonne en cours
                     int num = Integer.parseInt(line.split(" ")[col]);
 
@@ -71,13 +71,16 @@ public class TileManager {
         try {
 
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/wooden.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/sewer_ground.png"));
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/floorRock.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/sewer_water.png"));
 
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/wallTiles/rock.png"));
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/sewer_down_water.png"));
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/wallTiles/sewer_wall.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,23 +88,25 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldCol = 0;
+        int worldRow = 0;
 
-        while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
-            int tileNum = mapTileNum[col][row];
 
-            g2.drawImage(tile[tileNum].image, x, y, gp.getTileSize(), gp.getTileSize(), null);
-            col++;
-            x += gp.getTileSize();
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-            if (col == gp.getMaxScreenCol()) {
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.getTileSize();
+            int worldX = worldCol * gp.getTileSize();
+            int worldY = worldRow * gp.getTileSize();
+            int screenX = worldX - gp.player.getWorldX() + gp.player.screenX;
+            int screenY = worldY - gp.player.getWorldY() + gp.player.screenY;
+
+            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+            worldCol++;
+
+
+            if (worldCol == gp.maxWorldCol) {
+                worldCol = 0;
+                worldRow++;
             }
 
         }

@@ -17,6 +17,9 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyHandler = kh;
 
+        screenX = gp.getScreenWidth()/2 - (gp.getTileSize()/2);
+        screenY = gp.getScreenHeight()/2 - (gp.getTileSize()/2);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -40,19 +43,19 @@ public class Player extends Entity {
         if (keyHandler.isKeyPressed()) {
             if (keyHandler.isUpPressed()) {
                 direction = "up";
-                y -= speed;
+                worldY -= speed;
             }
             if (keyHandler.isDownPressed()) {
                 direction = "down";
-                y += speed;
+                worldY += speed;
             }
             if (keyHandler.isLeftPressed()) {
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             }
             if (keyHandler.isRightPressed()) {
                 direction = "right";
-                x += speed;
+                worldX += speed;
             }
 
             spriteCounter++;
@@ -101,12 +104,16 @@ public class Player extends Entity {
             default -> null;
         };
 
-        g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
+        g2.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
     }
 
     private void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gp.getTileSize()* 2;
+        worldY = gp.getTileSize()* 2;
         speed = 4;
     }
+
+    public final int screenX;
+    public final int screenY;
+
 }

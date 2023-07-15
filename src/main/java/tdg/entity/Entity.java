@@ -3,7 +3,7 @@ package tdg.entity;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
-    protected int x, y;
+    protected int worldX, worldY;
     protected int speed;
     protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     protected String direction = "down";
@@ -25,12 +25,12 @@ public abstract class Entity {
      *
      * De ouf, j'ai ri, j'avoue ! :')
      */
-    public int getX() {
-        return x;
+    public int getWorldX() {
+        return worldX;
     }
 
-    public int getY() {
-        return y;
+    public int getWorldY() {
+        return worldY;
     }
 
     public int getSpeed() {
