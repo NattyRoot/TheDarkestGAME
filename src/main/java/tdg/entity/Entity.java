@@ -1,15 +1,19 @@
 package tdg.entity;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
     protected int worldX, worldY;
-    protected int speed;
+    public int speed;
     protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    protected String direction = "down";
+    public String direction = "down";
 
     protected int spriteCounter = 0;
     protected int spriteNum = 1;
+
+    public Rectangle solidArea;
+    public boolean collisionOn = false;
 
     /*
      * Getters ("Accesseur" en français) allows code from other packages to access private values but they can't update them

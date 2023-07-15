@@ -12,9 +12,9 @@ import java.io.InputStreamReader;
 public class TileManager {
 
     GamePanel gp;
-    Tile[] tile;
+    public Tile[] tile;
 
-    int[][] mapTileNum;
+    public int[][] mapTileNum;
 
     public TileManager(GamePanel gp) {
 
@@ -72,33 +72,43 @@ public class TileManager {
 
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/outmapTiles/sewer_outmap_void.png"));
+            tile[0].collision = true;
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/outmapTiles/sewer_outmap_top.png"));
+            tile[1].collision = true;
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/outmapTiles/sewer_outmap_right.png"));
+            tile[2].collision = true;
 
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/outmapTiles/sewer_outmap_bottom.png"));
+            tile[3].collision = true;
 
             tile[4] = new Tile();
             tile[4].image = ImageIO.read(getClass().getResourceAsStream("/outmapTiles/sewer_outmap_left.png"));
+            tile[4].collision = true;
 
             tile[5] = new Tile();
             tile[5].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/sewer_ground.png"));
+            tile[5].collision = false;
 
             tile[6] = new Tile();
             tile[6].image = ImageIO.read(getClass().getResourceAsStream("/wallTiles/sewer_wall_floor.png"));
+            tile[6].collision = true;
 
             tile[7] = new Tile();
             tile[7].image = ImageIO.read(getClass().getResourceAsStream("/wallTiles/sewer_wall.png"));
+            tile[7].collision = true;
 
             tile[8] = new Tile();
             tile[8].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/sewer_water.png"));
+            tile[8].collision = true;
 
             tile[9] = new Tile();
             tile[9].image = ImageIO.read(getClass().getResourceAsStream("/floorTiles/sewer_down_water.png"));
+            tile[9].collision = true;
 
 
         } catch (IOException e) {

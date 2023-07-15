@@ -2,6 +2,7 @@ package tdg.ui;
 
 import tdg.config.ConfigurationReader;
 import tdg.entity.Player;
+import tdg.system.CollisionChecker;
 import tdg.system.KeyHandler;
 import tdg.tiles.TileManager;
 
@@ -30,10 +31,11 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     public Player player = new Player(this, keyHandler);
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
 
     // FPS
     final int FPS = ConfigurationReader.getInt(GAME_FPS);;
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
