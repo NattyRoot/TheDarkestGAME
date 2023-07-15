@@ -1,5 +1,6 @@
 package tdg.ui;
 
+import tdg.config.ConfigurationReader;
 import tdg.entity.Player;
 import tdg.system.KeyHandler;
 import tdg.tiles.TileManager;
@@ -7,14 +8,16 @@ import tdg.tiles.TileManager;
 import javax.swing.*;
 import java.awt.*;
 
+import static tdg.config.ConfigurationKey.*;
+
 public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
-    final int originalTileSize = 16; // 16x16 tile
-    final int scale = 3;
+    final int originalTileSize = ConfigurationReader.getInt(WORLD_TILE_PIXEL); // 16x16 tile
+    final int scale = ConfigurationReader.getInt(WORLD_TILE_SCALE);
 
     final int tileSize = originalTileSize * scale; // 48x48 tile
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    final int maxScreenCol = ConfigurationReader.getInt(WORLD_MAP_COLUMN);
+    final int maxScreenRow = ConfigurationReader.getInt(WORLD_MAP_ROW);
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
@@ -29,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyHandler);
 
     // FPS
-    final int FPS = 60;
+    final int FPS = ConfigurationReader.getInt(GAME_FPS);;
     TileManager tileM = new TileManager(this);
 
     public GamePanel() {
