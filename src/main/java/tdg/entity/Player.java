@@ -13,6 +13,11 @@ public class Player extends Entity {
     private final GamePanel gp;
     private final KeyHandler keyHandler;
 
+    BufferedImage image = null;
+
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, KeyHandler kh) {
         this.gp = gp;
         this.keyHandler = kh;
@@ -20,7 +25,7 @@ public class Player extends Entity {
         screenX = gp.getScreenWidth()/2 - (gp.getTileSize()/2);
         screenY = gp.getScreenHeight()/2 - (gp.getTileSize()/2);
 
-        solidArea = new Rectangle(8, 24, gp.getTileSize() - 16, gp.getTileSize() - 16);
+        solidArea = new Rectangle(8, 20, gp.getTileSize() - 16, gp.getTileSize() - 16);
 
         setDefaultValues();
         getPlayerImage();
@@ -43,33 +48,30 @@ public class Player extends Entity {
 
     public void update() {
         if (keyHandler.isKeyPressed()) {
-            if (keyHandler.isUpPressed()) {
-                direction = "up";
-            }
-            if (keyHandler.isDownPressed()) {
-                direction = "down";
-            }
-            if (keyHandler.isLeftPressed()) {
-                direction = "left";
-            }
-            if (keyHandler.isRightPressed()) {
-                direction = "right";
-            }
+            // Update player directions according to the current pressed buttons
+            updateDirections();
+
+            // Set all collisions back to false
+            resetCollision();
 
             // Check collision
-            collisionOn = false;
             gp.collisionChecker.checkTile(this);
 
-            // If collision is false, then player can move
-            if (!collisionOn) {
-                switch (direction) {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
-                }
+            // If there is no collision, player can move
+            if (!collisionUp && keyHandler.isUpPressed()) {
+                worldY -= speed;
+            }
+            if (!collisionDown && keyHandler.isDownPressed()) {
+                worldY += speed;
+            }
+            if (!collisionLeft && keyHandler.isLeftPressed()) {
+                worldX -= speed;
+            }
+            if (!collisionRight && keyHandler.isRightPressed()) {
+                worldX += speed;
             }
 
+            // Sprite animation
             spriteCounter++;
 
             if (spriteCounter > 10) {
@@ -84,39 +86,49 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = switch (direction) {
-            case "up" -> {
-                if (spriteNum == 1) {
-                    yield up1;
-                } else {
-                    yield up2;
-                }
+        if (directions.contains("right")) {
+            if (spriteNum == 1) {
+                image = right1;
+            } else {
+                image = right2;
             }
-            case "left" -> {
-                if (spriteNum == 1) {
-                    yield left1;
-                } else {
-                    yield left2;
-                }
-            }
-            case "right" -> {
-                if (spriteNum == 1) {
-                    yield right1;
-                } else {
-                    yield right2;
-                }
-            }
-            case "down" -> {
-                if (spriteNum == 1) {
-                    yield down1;
-                } else {
-                    yield down2;
-                }
-            }
-            default -> null;
-        };
+        }
 
+        if (directions.contains("left")) {
+            if (spriteNum == 1) {
+                image = left1;
+            } else {
+                image = left2;
+            }
+        }
+
+        if (directions.contains("up")) {
+            if (spriteNum == 1) {
+                image = up1;
+            } else {
+                image = up2;
+            }
+        }
+
+         if (directions.contains("down")) {
+            if (spriteNum == 1) {
+                image = down1;
+            } else {
+                image = down2;
+            }
+        }
+
+        // If there is no current directions, set the image to "down" by default
+        if (image == null) {
+            image = down1;
+        }
+
+        // Draw player
         g2.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+
+        // Draw hitbox
+        g2.setColor(Color.red);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 
     private void setDefaultValues() {
@@ -125,7 +137,32 @@ public class Player extends Entity {
         speed = 4;
     }
 
-    public final int screenX;
-    public final int screenY;
+    private void resetCollision() {
+        collisionUp = false;
+        collisionDown = false;
+        collisionLeft = false;
+        collisionRight = false;
+    }
 
+    private void updateDirections() {
+        // Reset all directions
+        directions.remove("up");
+        directions.remove("down");
+        directions.remove("left");
+        directions.remove("right");
+
+        // Add directions according to the current pressed buttons
+        if (keyHandler.isUpPressed()) {
+            directions.add("up");
+        }
+        if (keyHandler.isDownPressed()) {
+            directions.add("down");
+        }
+        if (keyHandler.isLeftPressed()) {
+            directions.add("left");
+        }
+        if (keyHandler.isRightPressed()) {
+            directions.add("right");
+        }
+    }
 }
