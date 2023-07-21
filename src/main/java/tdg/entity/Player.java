@@ -17,6 +17,11 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyHandler = kh;
 
+        screenX = gp.getScreenWidth()/2 - (gp.getTileSize()/2);
+        screenY = gp.getScreenHeight()/2 - (gp.getTileSize()/2);
+
+        solidArea = new Rectangle(8, 24, gp.getTileSize() - 16, gp.getTileSize() - 16);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -40,19 +45,29 @@ public class Player extends Entity {
         if (keyHandler.isKeyPressed()) {
             if (keyHandler.isUpPressed()) {
                 direction = "up";
-                y -= speed;
             }
             if (keyHandler.isDownPressed()) {
                 direction = "down";
-                y += speed;
             }
             if (keyHandler.isLeftPressed()) {
                 direction = "left";
-                x -= speed;
             }
             if (keyHandler.isRightPressed()) {
                 direction = "right";
-                x += speed;
+            }
+
+            // Check collision
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+
+            // If collision is false, then player can move
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
+                }
             }
 
             spriteCounter++;
@@ -101,12 +116,16 @@ public class Player extends Entity {
             default -> null;
         };
 
-        g2.drawImage(image, x, y, gp.getTileSize(), gp.getTileSize(), null);
+        g2.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
     }
 
     private void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gp.getTileSize()* 8;
+        worldY = gp.getTileSize()* 8;
         speed = 4;
     }
+
+    public final int screenX;
+    public final int screenY;
+
 }

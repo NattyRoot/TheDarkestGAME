@@ -2,6 +2,7 @@ package tdg.ui;
 
 import tdg.config.ConfigurationReader;
 import tdg.entity.Player;
+import tdg.system.CollisionChecker;
 import tdg.system.KeyHandler;
 import tdg.tiles.TileManager;
 
@@ -21,13 +22,20 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
+    // WORLD SETTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidht = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyHandler);
+    public Player player = new Player(this, keyHandler);
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
 
     // FPS
     final int FPS = ConfigurationReader.getInt(GAME_FPS);;
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
