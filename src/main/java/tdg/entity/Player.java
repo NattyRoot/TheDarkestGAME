@@ -132,8 +132,8 @@ public class Player extends Entity {
     }
 
     private void setDefaultValues() {
-        worldX = gp.getTileSize()* 8;
-        worldY = gp.getTileSize()* 8;
+        worldX = gp.getTileSize() * 8;
+        worldY = gp.getTileSize() * 8;
         speed = 4;
     }
 

@@ -26,6 +26,7 @@ public class CollisionChecker {
 
         int tileNum1, tileNum2;
 
+        // If entity is going up, check upward collisions
         if (entity.directions.contains("up")) {
             entityTopRow = (entityTopWorldY - entity.speed) / gp.getTileSize();
             tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
@@ -34,6 +35,8 @@ public class CollisionChecker {
                 entity.collisionUp = true;
             }
         }
+
+        // If entity is going down, check downward collisions
         if (entity.directions.contains("down")) {
             entityBottomRow = (entityBottomWorldY + entity.speed) / gp.getTileSize();
             tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
@@ -42,6 +45,8 @@ public class CollisionChecker {
                 entity.collisionDown = true;
             }
         }
+
+        // If entity is going left, check left collisions
         if (entity.directions.contains("left")) {
             entityLeftCol = (entityLeftWorldX - entity.speed) / gp.getTileSize();
             tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
@@ -50,6 +55,8 @@ public class CollisionChecker {
                 entity.collisionLeft = true;
             }
         }
+
+        // If entity is going right, check right collisions
         if (entity.directions.contains("right")) {
             entityRightCol = (entityRightWorldX + entity.speed) / gp.getTileSize();
             tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];

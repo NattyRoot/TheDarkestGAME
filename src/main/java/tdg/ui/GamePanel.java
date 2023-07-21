@@ -75,12 +75,12 @@ public class GamePanel extends JPanel implements Runnable {
                 update();
 
                 /*
-                 * 2. DRAW: draw the screen with the updated informations
+                 * 2. DRAW: draw the screen with the updated information
                  */
                 repaint();
 
                 /*
-                 * 3. RESET DELTA: reset delta after drawing to know when newt image should be drawn
+                 * 3. RESET DELTA: reset delta after drawing to know when a new image should be drawn
                  */
                 delta--;
 
