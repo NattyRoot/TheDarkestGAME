@@ -28,6 +28,8 @@ public class TheDarkestGAME {
 
         window.setVisible(true);
 
+        gamePanel.setupGame();
+
         gamePanel.startGameThread();
     }
 }

@@ -2,6 +2,8 @@ package tdg.ui;
 
 import tdg.config.ConfigurationReader;
 import tdg.entity.Player;
+import tdg.objects.SuperObject;
+import tdg.system.AssetSetter;
 import tdg.system.CollisionChecker;
 import tdg.system.KeyHandler;
 import tdg.tiles.TileManager;
@@ -37,6 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
     final int FPS = ConfigurationReader.getInt(GAME_FPS);;
     public TileManager tileM = new TileManager(this);
 
+    public AssetSetter assetSetter = new AssetSetter(this);
+
+    public SuperObject[] objects = new SuperObject[10];
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -44,6 +50,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        assetSetter.setObject();
     }
 
     public void startGameThread() {
@@ -106,8 +116,17 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
+        // Draw tiles
         tileM.draw(g2);
 
+        // Draw objects
+        for (int i = 0; i < objects.length; i++) {
+            if (objects[i] != null) {
+                objects[i].draw(g2, this);
+            }
+        }
+
+        // Draw player
         player.draw(g2);
 
         g2.dispose();
