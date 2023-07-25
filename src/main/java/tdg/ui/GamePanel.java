@@ -6,6 +6,7 @@ import tdg.objects.SuperObject;
 import tdg.system.AssetSetter;
 import tdg.system.CollisionChecker;
 import tdg.system.KeyHandler;
+import tdg.system.SoundSystem;
 import tdg.tiles.TileManager;
 
 import javax.swing.*;
@@ -27,8 +28,6 @@ public class GamePanel extends JPanel implements Runnable {
     // WORLD SETTINGS
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidht = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
@@ -43,6 +42,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public SuperObject[] objects = new SuperObject[10];
 
+    SoundSystem soundSystem = new SoundSystem();
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -54,6 +55,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         assetSetter.setObject();
+
+        soundSystem.playMainTheme();
     }
 
     public void startGameThread() {
