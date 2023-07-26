@@ -193,6 +193,10 @@ public class Player extends Entity {
                     gp.objects[index] = null;
                 }
                 break;
+            case "boots":
+                speed += 1;
+                gp.objects[index] = null;
+                break;
         }
     }
 }

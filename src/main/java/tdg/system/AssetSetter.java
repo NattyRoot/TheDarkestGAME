@@ -1,5 +1,6 @@
 package tdg.system;
 
+import tdg.objects.BootsObject;
 import tdg.objects.DoorObject;
 import tdg.objects.KeyObject;
 import tdg.ui.GamePanel;
@@ -24,5 +25,9 @@ public class AssetSetter {
         gp.objects[2] = new DoorObject();
         gp.objects[2].worldX = gp.getTileSize() * 15;
         gp.objects[2].worldY = gp.getTileSize() * 7;
+
+        gp.objects[3] = new BootsObject();
+        gp.objects[3].worldX = gp.getTileSize() * 18;
+        gp.objects[3].worldY = gp.getTileSize() * 7;
     }
 }
