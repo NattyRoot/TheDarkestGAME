@@ -18,6 +18,8 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
+    public int hasKeys = 0;
+
     public Player(GamePanel gp, KeyHandler kh) {
         this.gp = gp;
         this.keyHandler = kh;
@@ -26,6 +28,8 @@ public class Player extends Entity {
         screenY = gp.getScreenHeight()/2 - (gp.getTileSize()/2);
 
         solidArea = new Rectangle(8, 20, gp.getTileSize() - 16, gp.getTileSize() - 16);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
         getPlayerImage();
@@ -54,8 +58,13 @@ public class Player extends Entity {
             // Set all collisions back to false
             resetCollision();
 
-            // Check collision
+            // Check tile collision
             gp.collisionChecker.checkTile(this);
+
+            // Check object collision
+            int objectIndex = gp.collisionChecker.checkObject(this, true);
+
+            pickupObject(objectIndex);
 
             // If there is no collision, player can move
             if (!collisionUp && keyHandler.isUpPressed()) {
@@ -163,6 +172,27 @@ public class Player extends Entity {
         }
         if (keyHandler.isRightPressed()) {
             directions.add("right");
+        }
+    }
+
+    public void pickupObject(int index) {
+        if(index == 999) {
+            return;
+        }
+
+        String objectName = gp.objects[index].name;
+
+        switch (objectName) {
+            case "key":
+                hasKeys++;
+                gp.objects[index] = null;
+                break;
+            case "door":
+                if (hasKeys > 0) {
+                    hasKeys--;
+                    gp.objects[index] = null;
+                }
+                break;
         }
     }
 }
