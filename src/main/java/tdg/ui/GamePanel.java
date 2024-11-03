@@ -42,8 +42,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public SuperObject[] objects = new SuperObject[10];
 
-    SoundSystem soundSystem = new SoundSystem();
-
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -56,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         assetSetter.setObject();
 
-        soundSystem.playMainTheme();
+        SoundSystem.playMainTheme();
     }
 
     public void startGameThread() {
