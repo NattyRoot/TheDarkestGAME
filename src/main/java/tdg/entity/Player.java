@@ -1,6 +1,7 @@
 package tdg.entity;
 
 import tdg.system.KeyHandler;
+import tdg.system.SoundSystem;
 import tdg.ui.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -186,6 +187,10 @@ public class Player extends Entity {
             case "key":
                 hasKeys++;
                 gp.objects[index] = null;
+
+                // Testing fade
+                SoundSystem.fadeLoopToOutro();
+
                 break;
             case "door":
                 if (hasKeys > 0) {
@@ -196,6 +201,10 @@ public class Player extends Entity {
             case "boots":
                 speed += 1;
                 gp.objects[index] = null;
+
+                // Testing fade
+                SoundSystem.fadeOutroToLoop();
+
                 break;
         }
     }
